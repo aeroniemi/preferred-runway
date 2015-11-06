@@ -57,16 +57,30 @@ bool PreferredRunwayPlugIn::OnCompileCommand(const char * sCommandLine) {
 }
 
 string PreferredRunwayPlugIn::GetActiveRunway(string ICAO){
-	string CompiledWind = to_string(_WindData[ICAO].direction) + " degrees, " + to_string(_WindData[ICAO].speed) + " knots.";
-	return CompiledWind;
+	vector<runway>::iterator iterator = _RunwayData[ICAO].begin();
+	runway tmpRunway;
+	runway foundRunway = *iterator;
+	int foundRunwayDiff = abs(tmpRunway.Heading - _WindData[ICAO].direction);
+
+	for (iterator++; iterator != _RunwayData[ICAO].end(); iterator++) {
+		tmpRunway = *iterator;
+		int headingDifference = abs(tmpRunway.Heading - _WindData[ICAO].direction);
+		if (headingDifference < foundRunwayDiff) {
+			foundRunway = *iterator;
+			foundRunwayDiff = headingDifference;	
+		}
+	}
+
+	return foundRunway.Ident;
 }
 
 void PreferredRunwayPlugIn::OnNewMetarReceived(const char * sStation, const char * sFullMetar) {
 	string ICAO = sStation;
 	wind decodedWindData;
 	string encodedMETAR = sFullMetar;
-
+	 
 	istringstream iss(encodedMETAR);
+	
 	vector<string> vec;
 	copy(istream_iterator<string>(iss),
 		istream_iterator<string>(),
@@ -74,7 +88,16 @@ void PreferredRunwayPlugIn::OnNewMetarReceived(const char * sStation, const char
 	vector<string>::iterator it = vec.begin();
 	it++;
 	it++;
+	
 	string encodedWind = *it;
+	if (encodedWind == "AUTO") it++;
+	encodedWind = *it;
+	
+	if (encodedWind.find('/') != string::npos) {
+		if (_WindData.find(ICAO) != _WindData.end())
+			_WindData.erase(ICAO);
+		return;
+	}
 
 	string encodedWindDirect = encodedWind.substr(0,3);
 	if (encodedWindDirect == "VRB")

@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
-#include <EuroScopePlugIn.h>
+#include "../lib/include/EuroScopePlugIn.h"
 #include "preferred-runway.h"
 
 using namespace std;
