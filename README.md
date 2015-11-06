@@ -1,4 +1,4 @@
-# Preferred Runway Euroscope Plugin [![Latest Unstable Version](https://img.shields.io/badge/unstable-0.1.x--dev-orange.svg?style=flat-square)](https://github.com/theomessin/preferred-runway) [![License](https://img.shields.io/badge/license-MIT-4A8F80.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+# Preferred Runway Plugin [![Latest Unstable Version](https://img.shields.io/badge/unstable-0.1.x--dev-orange.svg?style=flat-square)](https://github.com/theomessin/preferred-runway) [![License](https://img.shields.io/badge/license-MIT-4A8F80.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 This plugin for Euroscope will quickly determine the active runway of an airport. It is especially useful when controlling an entire FIR by yourself. 
 
 ## Using the Plugin (In a nutshell)
