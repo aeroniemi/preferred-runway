@@ -2,6 +2,9 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <algorithm>
+#include <iterator>
+#include <sstream>
 #include <EuroScopePlugIn.h>
 #include "preferred-runway.h"
 

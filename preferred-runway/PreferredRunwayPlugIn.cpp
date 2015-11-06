@@ -64,6 +64,31 @@ string PreferredRunwayPlugIn::GetActiveRunway(string ICAO){
 void PreferredRunwayPlugIn::OnNewMetarReceived(const char * sStation, const char * sFullMetar) {
 	string ICAO = sStation;
 	wind decodedWindData;
+	string encodedMETAR = sFullMetar;
+
+	istringstream iss(encodedMETAR);
+	vector<string> vec;
+	copy(istream_iterator<string>(iss),
+		istream_iterator<string>(),
+		back_inserter(vec));
+	vector<string>::iterator it = vec.begin();
+	it++;
+	it++;
+	string encodedWind = *it;
+
+	string encodedWindDirect = encodedWind.substr(0,3);
+	if (encodedWindDirect == "VRB")
+		decodedWindData.direction = -1;
+	else
+		decodedWindData.direction = stoi(encodedWindDirect);
+
+	string encodedWindSpeed;
+	if (encodedWind.find('G') != string::npos)
+		encodedWindSpeed = encodedWind.substr(6, 2);
+	else
+		encodedWindSpeed = encodedWind.substr(3, 2);
+
+	decodedWindData.speed = stoi(encodedWindSpeed);
 
 	_WindData[ICAO] = decodedWindData;
 }
