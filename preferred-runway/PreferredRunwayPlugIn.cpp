@@ -24,6 +24,22 @@ PreferredRunwayPlugIn::PreferredRunwayPlugIn(void) : CPlugIn(EuroScopePlugIn::CO
 		
 		_RunwayData[AirportICAOCode].push_back(Runway);
 	}
+
+	//Retrieve Configuration from JSON file
+	GetModuleFileNameA((HINSTANCE)&__ImageBase, _DLLFilePath, sizeof(_DLLFilePath));
+	_DLLFullPath = _DLLFilePath;
+	_DLLFullPath.resize(_DLLFullPath.size() - strlen("preferred-runway.dll"));
+
+	_JSONConfigurationFilePath = _DLLFullPath + "\\runways.json";
+
+	stringstream ss;
+	ifstream ifs;
+	ifs.open(_JSONConfigurationFilePath, ios::binary);
+	ss << ifs.rdbuf();
+	ifs.close();
+
+	if (_JSONConfiguration.Parse<0>(ss.str().c_str()).HasParseError())
+		throw invalid_argument("Error parsing JSON Configuration file.");
 }
 
 

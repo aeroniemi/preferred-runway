@@ -5,7 +5,11 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
+#include <fstream>
 #include "../lib/include/EuroScopePlugIn.h"
+#include "../lib/include/rapidjson/document.h"
+#include "../lib/include/rapidjson/stringbuffer.h"
+
 #include "preferred-runway.h"
 
 using namespace std;
@@ -44,4 +48,8 @@ public:
 private:
 	map<string, wind> _WindData;
 	map<string, vector<runway> > _RunwayData;
+
+	rapidjson::Document _JSONConfiguration;
+	char _DLLFilePath[_MAX_PATH];
+	string _DLLFullPath, _JSONConfigurationFilePath;
 };
